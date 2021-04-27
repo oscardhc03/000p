@@ -6,12 +6,17 @@
 *		or
 *		and
 *		nor
+*		lui
+*		sll
+*		srl
 * This ALU is written by using behavioral description.
 * Version:
 *	1.0
 * Author:
 *	Dr. José Luis Pizano Escalante
 * email:
+*	
+*	
 *	luispizano@iteso.mx
 * Date:
 *	01/03/2014
@@ -30,6 +35,9 @@ localparam OR  = 4'b0001;
 localparam NOR = 4'b0010;
 localparam ADD = 4'b0011;
 localparam SUB = 4'b0100;
+localparam LUI = 4'b0101;
+localparam SLL = 4'b0110;
+localparam SRL = 4'b0111;
 
    always @ (A or B or ALUOperation)
      begin
@@ -44,6 +52,14 @@ localparam SUB = 4'b0100;
 			ALUResult= A | B;
 		  NOR: // or
 			ALUResult= ~(A|B);
+			ADD:	ALUResult = A + B;
+			SUB:	ALUResult = A - B;
+			AND:	ALUResult = A & B;
+			OR: 	ALUResult = A | B;
+			NOR:	ALUResult = ~(A | B);
+			LUI:	ALUResult = {B, 16'b0}
+			SLL:	ALUResult = A << Shamt;
+			SRL:	ALUResult = A >> Shamt;
 		default:
 			ALUResult= 0;
 		endcase // case(control)
